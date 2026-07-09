@@ -2,21 +2,36 @@
 
 Automatically collects daily snapshots of the WeChall global rankings, preserves historical data, and publishes an interactive website powered by GitHub Pages.
 
+## Current Status
+
+The project now includes:
+
+- a local archive workflow under `data/history/`
+- a fetch script at `scripts/fetch.py` that fetches the ranking from <https://www.wechall.net/ranking>
+- a parser script at `scripts/parse.py` that reads an archived HTML ranking page and writes JSON
+- a lightweight regression test at `tests/test_parse.py`
+
 ## Project Structure
 
-```
+```text
 wechall-ranking/
 ├── data/
-│   └── history/           # Historical ranking snapshots
+│   └── history/
+│       ├── 2026-07-09.html
+│       └── 2026-07-09.json
 ├── scripts/
-│   └── fetch.py           # Main script for ranking collection
-├── requirements.txt       # Python dependencies
-└── README.md             # This file
+│   ├── fetch.py
+│   └── parse.py
+├── tests/
+│   └── test_parse.py
+├── requirements.txt
+└── README.md
 ```
 
 ## Setup
 
 1. Create and activate a Python virtual environment:
+
    ```bash
    python -m venv venv
    # On Windows:
@@ -26,29 +41,45 @@ wechall-ranking/
    ```
 
 2. Install dependencies:
+
    ```bash
    pip install -r requirements.txt
    ```
 
-## Running
+## Usage
+
+Fetch the latest ranking data from WeChall:
 
 ```bash
 python scripts/fetch.py
 ```
 
+Parse the latest archived HTML file:
+
+```bash
+python scripts/parse.py
+```
+
+Parse a specific archive date:
+
+```bash
+python scripts/parse.py 2026-07-09
+```
+
+Run the regression test:
+
+```bash
+python -m unittest discover -s tests -p "test_parse.py"
+```
+
 ## Features
 
 - Daily snapshot collection of WeChall rankings
-- Historical data preservation (stored in `data/history/`, currently in raw html format)
-- Automated scheduling ready
-- GitHub Pages integration
+- Historical data preservation (stored in `data/history/`, in raw html and json format)
 
 ## Next Steps
 
-1. Improve the data collection logic in `scripts/fetch.py` (add json format)
-2. Test snapshot saving to `data/history/`
-3. Configure automated scheduling (cron, GitHub Actions, etc.)
-4. Create the website generation logic
-5. Configure GitHub Pages deployment
+1. Create a static website or dashboard from the generated JSON
+2. Configure GitHub Pages deployment
 
 ![Daily Update](https://github.com/quangntenemy/wechall-ranking/actions/workflows/update.yml/badge.svg)
