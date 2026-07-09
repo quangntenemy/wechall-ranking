@@ -50,3 +50,5 @@ python scripts/fetch.py
 3. Configure automated scheduling (cron, GitHub Actions, etc.)
 4. Create the website generation logic
 5. Configure GitHub Pages deployment
+
+![Daily Update](https://github.com/quangntenemy/wechall-ranking/actions/workflows/update.yml/badge.svg)
