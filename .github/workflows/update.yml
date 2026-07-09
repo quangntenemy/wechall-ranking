@@ -17,23 +17,33 @@ jobs:
 
     steps:
 
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - run: pip install -r requirements.txt
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
-      - run: python scripts/fetch.py
+      - name: Fetch latest ranking
+        run: python scripts/fetch.py
 
-      - run: |
+      - name: Parse ranking
+        run: python scripts/parse.py
+
+      - name: Commit changes
+        run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
 
           git add .
 
-          git diff --cached --quiet || (
-            git commit -m "Daily update"
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update WeChall ranking ($(date -u +'%Y-%m-%d'))"
             git push
-          )
+          fi
