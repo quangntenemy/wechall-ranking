@@ -19,6 +19,8 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -45,6 +47,7 @@ jobs:
             echo "No changes to commit."
           else
             git commit -m "Update WeChall ranking ($(date -u +'%Y-%m-%d'))"
-            git pull --rebase origin main
-            git push
+            git fetch origin main
+            git rebase origin/main
+            git push origin main
           fi
